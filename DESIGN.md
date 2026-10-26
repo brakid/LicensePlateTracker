@@ -162,6 +162,16 @@ operator runs `cli reconcile`
 - Operators can discard stale open sessions via `discard_open_session` / CLI.
 - `stats.anomaly_counts()` reports how often these cases happen, for monitoring detection quality.
 
+## Next Items (Roadmap)
+
+1. Multiple entry/exit gates: support N cameras, each registered as a gate (type entry/exit) in a `gates` table; sessions track entry/exit gate.
+2. Fuzzy plate matching / re-ID: edit-distance matching against recent detections to merge misread sessions.
+3. Real-time dashboard: FastAPI + WebSocket for live occupancy, detections, violations; admin UI for exemptions.
+4. Notifications: email/SMS/webhook on violation with retry queue.
+5. Analytics: peak-hour heatmaps, avg stay by day, repeat offenders.
+6. ALPR improvements: multi-frame voting, confidence aggregation, per-country plate format validation.
+7. Compliance: GDPR retention/anonymization, audit logs.
+
 ## Recent Changes
 
 - Detection model sourced from Hugging Face: `morsetechlab/yolov11-license-plate-detection` (`license-plate-finetune-v1x.pt`) via `hf_hub_download`.

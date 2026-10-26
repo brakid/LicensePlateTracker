@@ -9,10 +9,8 @@ A single Python service tracking cars through a parking lot using two cameras (e
 - **Detection**: YOLOv11 model from Hugging Face: https://huggingface.co/morsetechlab/yolov11-license-plate-detection
   - `weights = hf_hub_download("morsetechlab/yolov11-license-plate-detection", "license-plate-finetune-v1x.pt")`
   - Confidence threshold 0.75.
-- **OCR (primary)**: fast-plate-ocr `cct-s-v2-global-model` (`LicensePlateRecognizer`).
+- **OCR**: fast-plate-ocr `cct-s-v2-global-model` (`LicensePlateRecognizer`).
   - Reference: https://github.com/ankandrew/fast-plate-ocr
-- **OCR (fallback)**: Tesseract with char whitelist `0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ`, PSM 3, Otsu thresholding + morphological opening.
-  - Reference: https://stackoverflow.com/questions/53797130/empty-string-with-tesseract
 
 ## High-Level Architecture
 

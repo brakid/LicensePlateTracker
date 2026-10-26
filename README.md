@@ -2,7 +2,7 @@
 
 ## Overview
 
-A single Python service tracking cars through a parking lot using two cameras (entry + exit). Each camera detects and reads license plates (YOLOv8 + OCR). The system records entry/exit times, computes stay duration, flags violations when a car stays longer than a configurable threshold, and contacts the car holder via a mocked registration API. Service cars and other exempt vehicles are excluded from tracking. Cars that never leave are reconciled manually by an operator at end of day.
+A single Python service tracking cars through a parking lot using two cameras (entry + exit). Each camera detects and reads license plates (YOLOv11 + fast-plate-ocr). The system records entry/exit times, computes stay duration, flags violations when a car stays longer than a configurable threshold, and contacts the car holder via a mocked registration API. Service cars and other exempt vehicles are excluded from tracking. Cars that never leave are reconciled manually by an operator at end of day.
 
 ## Models (from LicensePlateRecognition.ipynb)
 
@@ -26,8 +26,8 @@ A single Python service tracking cars through a parking lot using two cameras (e
                │ frames
                ▼
 ┌──────────────────────────────────────┐
-│   Plate Detection + OCR Pipeline     │  YOLOv8 best.pt → crop → fast-plate-ocr
-│   (confidence threshold, normalize,  │  (or Tesseract fallback)
+│   Plate Detection + OCR Pipeline     │  YOLOv11 → crop → fast-plate-ocr
+│   (confidence threshold, normalize,  │  debounce across K frames)
 │    debounce across K frames)         │
 └──────────────┬───────────────────────┘
                │ (camera, plate, ts)
@@ -55,7 +55,7 @@ A single Python service tracking cars through a parking lot using two cameras (e
 |---|---|---|
 | Config | `config.py` / `config.yaml` | RTSP URLs, thresholds, DB path |
 | Camera ingestion | `camera.py` | RTSP capture threads, reconnect, frame sampling |
-| Plate pipeline | `plate_pipeline.py` | YOLOv8 detection + OCR, normalization, debounce |
+| Plate pipeline | `plate_pipeline.py` | YOLOv11 detection + OCR, normalization, debounce |
 | Sessions | `sessions.py` | Create/close parking sessions in SQLite |
 | Exemptions | `exemptions.py` | Exempt plate registry (DB-backed) |
 | Violations | `violations.py` | Threshold check, notify via mock reg API |
@@ -75,7 +75,7 @@ A single Python service tracking cars through a parking lot using two cameras (e
 7. **Concurrency**: SQLite in WAL mode; writes serialized through a single writer thread/queue.
 8. **Exemptions**: DB table with optional expiry; checked before session creation; exempt plates are still logged in `detections` for audit.
 9. **Notifications**: log only for now (no email/webhook). Contact action recorded in `violations` table.
-10. **OCR backend**: fast-plate-ocr primary, Tesseract as fallback (notebook showed onnxruntime must be installed).
+10. **OCR backend**: fast-plate-ocr only (onnxruntime required).
 
 ## DB Schema (SQLite)
 

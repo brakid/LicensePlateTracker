@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+*.db
+*.db-wal
+*.db-shm
+runs/
+*.pt
+.venv/
+venv/
+.env
+
+.ipynb_checkpoints/

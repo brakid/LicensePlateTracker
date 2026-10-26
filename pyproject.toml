@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "license-plate-tracker"
+version = "0.1.0"
+dependencies = [
+  "ultralytics",
+  "fast-plate-ocr[onnx]",
+  "onnxruntime",
+  "opencv-python",
+  "pyyaml",
+  "click",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/lpt"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["test"]

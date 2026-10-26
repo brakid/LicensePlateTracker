@@ -1,0 +1,7 @@
+entry_camera_url: "blank.png"
+exit_camera_url: "auto2.avif"
+max_stay_minutes: 120
+confidence_threshold: 0.75
+frame_sample_every_n: 5
+entry_debounce_seconds: 60
+db_path: "parking.db"

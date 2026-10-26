@@ -1,0 +1,9 @@
+ultralytics
+huggingface_hub
+fast-plate-ocr[onnx]
+onnxruntime
+opencv-python
+pyyaml
+click
+pytest
+black
